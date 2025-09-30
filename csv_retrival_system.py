@@ -15,7 +15,7 @@ class Analyzer_csv:
                     self.n_website[i[0]] = i[3]
                     
     def create_list(self):
-        with open(f"{self.file}_n_web", 'w') as w_file:
+        with open(f"{self.file}_n_web.csv", 'w') as w_file:
             writer = csv.writer(w_file)
 
             self.is_n_websites() #create a filtered verision of the csv file with no websites 

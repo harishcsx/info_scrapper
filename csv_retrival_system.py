@@ -6,27 +6,25 @@ class Analyzer_csv:
         self.n_website = {}
 
     def is_n_websites(self):
-        count = 0
-
-        with open(self.file, 'r') as file:
-            reader_obj = csv.reader(file, delimiter=',')
+        with open(self.file, 'r') as r_file:
+            reader_obj = csv.reader(r_file, delimiter=',')
             next(reader_obj) #skips the first field
 
             for i in reader_obj:
                 if not i[2]:
-                    self.n_website[i[0]] = i
-                    count += 1
+                    self.n_website[i[0]] = i[3]
+                    
+    def create_list(self):
+        with open(f"{self.file}_n_web", 'w') as w_file:
+            writer = csv.writer(w_file)
 
-            print("stores not having websites : ", count)
-
-    def list_n_websites(self):
-        for idx, item in enumerate(self.n_website):
-            print(f"store {idx+1} : ", item)
-
+            self.is_n_websites() #create a filtered verision of the csv file with no websites 
+            
+            for key in self.n_website:
+                writer.writerow([key, self.n_website[key]])
 
 
 
 bhubneswar = Analyzer_csv('restaurants.csv')
-bhubneswar.is_n_websites()
-bhubneswar.list_n_websites()
+bhubneswar.create_list()
 

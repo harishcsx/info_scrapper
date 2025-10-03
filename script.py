@@ -13,7 +13,7 @@ headers = {
     'X-API-KEY': API_KEY,
     'Content-Type': 'application/json'
 }
-origins = ["https://info-scrapper.vercel.app/"]
+origins = ["https://info-scrapper.vercel.app"]
 
 
 CORS(app, resources={r"/*": {"origins":origins}})

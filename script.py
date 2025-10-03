@@ -3,6 +3,8 @@ import csv
 import json
 import csvrs 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 API_KEY = "38397f5a75dcc2e24468f08066ac0ce7c91d5f1e"
@@ -11,6 +13,10 @@ headers = {
     'X-API-KEY': API_KEY,
     'Content-Type': 'application/json'
 }
+origins = ["http://localhost:5174"]
+
+
+CORS(app, resources={r"/*": {"origins":origins}})
 
 def fetch_data(SEARCH_QUERY: str):
     payload = json.dumps({
@@ -66,13 +72,13 @@ def fetch_data(SEARCH_QUERY: str):
     return analyzer.jsonify_it()
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['POST'])
 def home():
     content_type = request.headers.get("Content-Type")
     print("the type : ", content_type )
 
     if not (content_type and 'application/json' in content_type):
-        return jsonify({"error":"request must be json"}), 400
+        return jsonify({"error":"request must be json and sent as POST"}), 400
 
     data = request.get_json()
     print(f"the parsed data : ", data )
@@ -80,7 +86,8 @@ def home():
     if not data:
         return jsonify({"error":"No data provided"}), 400
     
-    query = data.get("data")
+    query = data.get("query")
+    print("query : ", query)
     if query:
         res = fetch_data(query)
     else:

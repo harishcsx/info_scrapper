@@ -1,15 +1,16 @@
 import requests
 import csv
 import json
-import csv_retrival_system
+import csvrs 
+from flask import Flask, request, jsonify
 
+app = Flask(__name__)
 API_KEY = "38397f5a75dcc2e24468f08066ac0ce7c91d5f1e"
 url = "https://google.serper.dev/places"
 headers = {
     'X-API-KEY': API_KEY,
     'Content-Type': 'application/json'
 }
-
 
 def fetch_data(SEARCH_QUERY: str):
     payload = json.dumps({
@@ -60,9 +61,32 @@ def fetch_data(SEARCH_QUERY: str):
         print(f"Something went wrong: {err}")
 
 
-query = "restaurants in goa"
-fetch_data(query)
+    analyzer = csvrs.Analyzer_csv("restaurants.csv")
+    analyzer.create_list()
+    return analyzer.jsonify_it()
 
 
-analyzer = csv_retrival_system.Analyzer_csv("restaurants.csv")
-analyzer.create_list()
+@app.route('/', methods=['GET'])
+def home():
+    content_type = request.headers.get("Content-Type")
+    print("the type : ", content_type )
+
+    if not (content_type and 'application/json' in content_type):
+        return jsonify({"error":"request must be json"}), 400
+
+    data = request.get_json()
+    print(f"the parsed data : ", data )
+
+    if not data:
+        return jsonify({"error":"No data provided"}), 400
+    
+    query = data.get("data")
+    if query:
+        res = fetch_data(query)
+    else:
+        return jsonify({"error": "didn't revieve any data"})
+    
+    return jsonify({"data":res})
+
+if __name__ == '__main__':
+    app.run()

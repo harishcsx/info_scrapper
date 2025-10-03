@@ -22,7 +22,7 @@ function App() {
       <input type="text" placeholder='enter query: ' onChange={(e) => {setTxt(e.target.value)}} />
       <button onClick={queryHandler}>Enter</button>
   
-      {(data) ?<>
+      {data.length > 0 && (
          <table>
           <thead>
             <tr>
@@ -40,7 +40,7 @@ function App() {
             ))}
           </tbody>
         </table></>
-    </>:<></>}
+    )}
   )
 }
 

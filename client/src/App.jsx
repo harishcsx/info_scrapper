@@ -39,7 +39,7 @@ function App() {
               </tr>
             ))}
           </tbody>
-        </table></>
+        </table>
     )}
   )
 }

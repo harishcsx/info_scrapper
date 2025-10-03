@@ -21,8 +21,9 @@ function App() {
     <>
       <input type="text" placeholder='enter query: ' onChange={(e) => {setTxt(e.target.value)}} />
       <button onClick={queryHandler}>Enter</button>
-
-      <table>
+  
+      if (data) {
+         <table>
           <thead>
             <tr>
               <th>Name</th>
@@ -39,6 +40,7 @@ function App() {
             ))}
           </tbody>
         </table>
+      }
     </>
   )
 }

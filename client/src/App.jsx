@@ -19,6 +19,7 @@ function App() {
   }
   return (
     <>
+      <h1>Adv Data Scrapper</h1>
       <input type="text" placeholder='enter query: ' onChange={(e) => {setTxt(e.target.value)}} />
       <button onClick={queryHandler}>Enter</button>
   
@@ -45,4 +46,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

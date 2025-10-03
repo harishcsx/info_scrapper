@@ -41,6 +41,7 @@ function App() {
           </tbody>
         </table>
     )}
+   </>
   )
 }
 

@@ -92,6 +92,8 @@ def home():
         res = fetch_data(query)
     else:
         return jsonify({"error": "didn't revieve any data"})
+    if not res:
+        return jsonify({"data":[{"name":"not", "ph_no":"found"}]})
     
     return jsonify({"data":res})
 
